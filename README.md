@@ -201,4 +201,8 @@ All four originally planned weeks are complete, plus additional features built b
 
 ## Future Work
 
+<<<<<<< HEAD
 - **Templates**: Reusable Opportunity blueprints (saved category + default checklist/task patterns) to speed up extraction for recurring document types.
+=======
+- **Templates**: Reusable Opportunity blueprints (saved category + default checklist/task patterns) to speed up extraction for recurring document types.
+>>>>>>> 58f8c42cb21f749245e30e670775bd1df6545d3a
