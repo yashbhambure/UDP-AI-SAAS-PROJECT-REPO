@@ -112,12 +112,12 @@ export default function DocumentsView() {
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse">
             <thead>
-              <tr className="border-b border-slate-900 bg-slate-950/40 text-slate-450 text-[10px] uppercase font-extrabold tracking-widest">
-                <th className="py-4.5 px-6">File Details</th>
-                <th className="py-4.5 px-6">Extracted Title</th>
-                <th className="py-4.5 px-6">Status</th>
-                <th className="py-4.5 px-6">Uploaded At</th>
-                <th className="py-4.5 px-6 text-right">Actions</th>
+              <tr className="border-b border-slate-300 dark:border-slate-800 bg-slate-200/50 dark:bg-slate-950/60 text-slate-700 dark:text-slate-300 text-xs font-bold uppercase tracking-wider">
+                <th className="py-4 px-6">File Details</th>
+                <th className="py-4 px-6">Extracted Title</th>
+                <th className="py-4 px-6">Status</th>
+                <th className="py-4 px-6">Uploaded At</th>
+                <th className="py-4 px-6 text-right">Actions</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-900/60 text-xs">

@@ -14,8 +14,11 @@ import {
   FileCode,
   LineChart,
   Database,
-  MessageSquare
+  MessageSquare,
+  Sun,
+  Moon
 } from 'lucide-react';
+import { useTheme } from '../../context/ThemeContext';
 
 const WORKSPACE_ITEMS = [
   { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
@@ -34,7 +37,7 @@ function Tooltip({ children, text, enabled }) {
   return (
     <div className="relative group flex items-center">
       {children}
-      <div className="absolute left-full ml-4 px-2.5 py-1.5 bg-slate-900 border border-slate-800 text-slate-200 text-[10px] font-bold uppercase rounded-lg shadow-xl opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap z-50">
+      <div className="absolute left-full ml-4 px-2.5 py-1.5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-800 dark:text-slate-200 text-[10px] font-bold uppercase rounded-lg shadow-xl opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap z-50">
         {text}
       </div>
     </div>
@@ -48,18 +51,18 @@ function NavItem({ item, active, onClick, isCollapsed }) {
       <button
         onClick={onClick}
         aria-label={item.label}
-        className={`w-full relative flex items-center rounded-xl text-xs font-semibold transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-purple-500 cursor-pointer overflow-hidden ${
+        className={`w-full relative flex items-center rounded-xl text-xs font-semibold transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-purple-500 cursor-pointer overflow-hidden ${
           isCollapsed ? 'justify-center h-12 w-12 mx-auto' : 'gap-3.5 py-3 px-4 min-h-[44px]'
         } ${
           active
-            ? 'text-purple-400 border border-purple-500/20'
-            : 'text-slate-400 border border-transparent hover:text-slate-200 hover:bg-slate-900/40'
+            ? 'text-indigo-600 dark:text-purple-400 border border-indigo-500/20 dark:border-purple-500/20'
+            : 'text-slate-600 dark:text-slate-400 border border-transparent hover:text-slate-900 dark:hover:text-slate-200 hover:bg-indigo-600/5 dark:hover:bg-slate-900/40'
         }`}
       >
         {active && (
           <motion.div
             layoutId="active-indicator"
-            className="absolute inset-0 bg-purple-600/10 border-l-2 border-purple-500 rounded-xl z-0"
+            className="absolute inset-0 bg-indigo-600/10 dark:bg-purple-600/10 border-l-2 border-indigo-500 dark:border-purple-500 rounded-xl z-0"
             transition={{ type: 'spring', stiffness: 380, damping: 30 }}
           />
         )}
@@ -87,6 +90,7 @@ function NavItem({ item, active, onClick, isCollapsed }) {
 }
 
 export default function Sidebar({ activeTab, setActiveTab, user, logout }) {
+  const { theme, toggleTheme } = useTheme();
   const [isCollapsed, setIsCollapsed] = useState(() => {
     return localStorage.getItem('sidebar_collapsed') === 'true';
   });
@@ -115,7 +119,7 @@ export default function Sidebar({ activeTab, setActiveTab, user, logout }) {
     <motion.aside
       animate={{ width: isCollapsed ? 76 : 280 }}
       transition={{ duration: 0.24, ease: 'easeInOut' }}
-      className="bg-slate-900/30 border-r border-slate-900/60 flex flex-col justify-between shrink-0 sticky top-0 z-20 h-screen overflow-hidden p-4"
+      className="bg-white dark:bg-slate-900/30 border-r border-slate-200 dark:border-slate-900/60 flex flex-col justify-between shrink-0 sticky top-0 z-20 h-screen overflow-hidden p-4"
     >
       <div className="space-y-6 flex flex-col h-[calc(100vh-140px)]">
         {/* Logo Section acting as collapse/expand toggle */}
@@ -139,8 +143,8 @@ export default function Sidebar({ activeTab, setActiveTab, user, logout }) {
                 transition={{ duration: 0.2 }}
                 className="min-w-0 flex flex-col justify-center animate-in fade-in duration-300"
               >
-                <h1 className="text-sm font-bold text-white tracking-tight leading-none">Tick-It AI</h1>
-                <span className="text-[9px] text-slate-500 font-extrabold tracking-wider uppercase mt-1 block">Mission Control</span>
+                <h1 className="text-sm font-bold text-slate-800 dark:text-white tracking-tight leading-none">Tick-It AI</h1>
+                <span className="text-[9px] text-slate-500 dark:text-slate-400 font-extrabold tracking-wider uppercase mt-1 block">Mission Control</span>
               </motion.div>
             )}
           </AnimatePresence>
@@ -153,7 +157,7 @@ export default function Sidebar({ activeTab, setActiveTab, user, logout }) {
           {/* Workspace Category */}
           <div className="space-y-2">
             {!isCollapsed && (
-              <h5 className="text-[10px] font-extrabold uppercase tracking-widest text-slate-500 pl-3">
+              <h5 className="text-[10px] font-extrabold uppercase tracking-widest text-slate-500 dark:text-slate-400 pl-3">
                 Workspace
               </h5>
             )}
@@ -173,7 +177,7 @@ export default function Sidebar({ activeTab, setActiveTab, user, logout }) {
           {/* Management Category */}
           <div className="space-y-2">
             {!isCollapsed && (
-              <h5 className="text-[10px] font-extrabold uppercase tracking-widest text-slate-500 pl-3">
+              <h5 className="text-[10px] font-extrabold uppercase tracking-widest text-slate-500 dark:text-slate-400 pl-3">
                 Management
               </h5>
             )}
@@ -193,14 +197,45 @@ export default function Sidebar({ activeTab, setActiveTab, user, logout }) {
       </div>
 
       {/* User Card Capacity and Profile Card */}
-      <div className="border-t border-slate-800/80 pt-4 space-y-4 shrink-0">
+      <div className="border-t border-slate-200 dark:border-slate-800/80 pt-4 space-y-4 shrink-0">
+        
+        {/* Theme Toggle Button */}
+        <div>
+          <Tooltip text={theme === 'dark' ? 'Light Mode' : 'Dark Mode'} enabled={isCollapsed}>
+            <button
+              onClick={toggleTheme}
+              className={`w-full flex items-center hover:bg-slate-100 dark:hover:bg-slate-900/40 rounded-xl cursor-pointer transition-all duration-200 p-2 focus:outline-none focus:ring-2 focus:ring-purple-500 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 ${
+                isCollapsed ? 'justify-center h-12 w-12 mx-auto' : 'gap-3.5'
+              }`}
+            >
+              <div className="w-8 h-8 flex items-center justify-center shrink-0">
+                <motion.div
+                  initial={false}
+                  animate={{ rotate: theme === 'dark' ? 360 : 0 }}
+                  transition={{ type: 'spring', stiffness: 200, damping: 15 }}
+                >
+                  {theme === 'dark' ? (
+                    <Sun className="w-5 h-5 text-amber-400" />
+                  ) : (
+                    <Moon className="w-5 h-5 text-indigo-500" />
+                  )}
+                </motion.div>
+              </div>
+              {!isCollapsed && (
+                <span className="text-xs font-semibold truncate text-left text-slate-700 dark:text-slate-300">
+                  {theme === 'dark' ? 'Light Mode' : 'Dark Mode'}
+                </span>
+              )}
+            </button>
+          </Tooltip>
+        </div>
 
         <div className="relative">
           <Tooltip text={user?.name || 'Profile'} enabled={isCollapsed}>
             <button
               onClick={() => setShowProfileMenu(!showProfileMenu)}
               aria-label="Profile actions"
-              className={`w-full flex items-center hover:bg-slate-900/40 rounded-xl cursor-pointer transition-all duration-200 p-2 focus:outline-none focus:ring-2 focus:ring-purple-500 ${
+              className={`w-full flex items-center hover:bg-slate-200/50 dark:hover:bg-slate-900/40 rounded-xl cursor-pointer transition-all duration-200 p-2 focus:outline-none focus:ring-2 focus:ring-purple-500 ${
                 isCollapsed ? 'justify-center h-12 w-12 mx-auto' : 'gap-3.5'
               }`}
             >
@@ -209,37 +244,37 @@ export default function Sidebar({ activeTab, setActiveTab, user, logout }) {
               </div>
               {!isCollapsed && (
                 <div className="min-w-0 text-left">
-                  <span className="text-xs font-bold text-white block truncate">{user?.name || 'Enterprise User'}</span>
-                  <span className="text-[9px] text-slate-500 block truncate">{user?.email}</span>
+                  <span className="text-xs font-bold text-slate-900 dark:text-white block truncate">{user?.name || 'Enterprise User'}</span>
+                  <span className="text-[9px] text-slate-500 dark:text-slate-400 block truncate">{user?.email}</span>
                 </div>
               )}
             </button>
           </Tooltip>
           
           {showProfileMenu && (
-            <div className={`absolute ${isCollapsed ? 'left-16 bottom-0' : 'bottom-12 left-0'} w-48 bg-slate-900 border border-slate-800 rounded-xl shadow-2xl py-1.5 z-30 animate-in fade-in slide-in-from-bottom-2 duration-150`}>
+            <div className={`absolute ${isCollapsed ? 'left-16 bottom-0' : 'bottom-12 left-0'} w-48 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl shadow-2xl py-1.5 z-30 animate-in fade-in slide-in-from-bottom-2 duration-150`}>
               <button
                 onClick={() => {
                   setActiveTab('profile');
                   setShowProfileMenu(false);
                 }}
-                className="w-full text-left px-3.5 py-2 text-xs font-semibold text-slate-300 hover:text-white hover:bg-slate-800/50 flex items-center gap-2 cursor-pointer border-0 bg-transparent"
+                className="w-full text-left px-3.5 py-2 text-xs font-semibold text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800/50 flex items-center gap-2 cursor-pointer border-0 bg-transparent"
               >
-                <Settings className="w-4 h-4 text-slate-500" />
+                <Settings className="w-4 h-4 text-slate-500 dark:text-slate-400" />
                 Settings
               </button>
-              <button className="w-full text-left px-3.5 py-2 text-xs font-semibold text-slate-300 hover:text-white hover:bg-slate-800/50 flex items-center gap-2 cursor-pointer border-0 bg-transparent">
-                <HelpCircle className="w-4 h-4 text-slate-500" />
+              <button className="w-full text-left px-3.5 py-2 text-xs font-semibold text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800/50 flex items-center gap-2 cursor-pointer border-0 bg-transparent">
+                <HelpCircle className="w-4 h-4 text-slate-500 dark:text-slate-400" />
                 Help Center
               </button>
-              <button className="w-full text-left px-3.5 py-2 text-xs font-semibold text-slate-300 hover:text-white hover:bg-slate-800/50 flex items-center gap-2 cursor-pointer border-0 bg-transparent">
-                <MessageSquare className="w-4 h-4 text-slate-500" />
+              <button className="w-full text-left px-3.5 py-2 text-xs font-semibold text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800/50 flex items-center gap-2 cursor-pointer border-0 bg-transparent">
+                <MessageSquare className="w-4 h-4 text-slate-500 dark:text-slate-400" />
                 Send Feedback
               </button>
-              <div className="border-t border-slate-800/80 my-1" />
+              <div className="border-t border-slate-200 dark:border-slate-800/80 my-1" />
               <button
                 onClick={logout}
-                className="w-full text-left px-3.5 py-2 text-xs font-semibold text-red-400 hover:text-red-300 hover:bg-red-950/20 flex items-center gap-2 cursor-pointer border-0 bg-transparent"
+                className="w-full text-left px-3.5 py-2 text-xs font-semibold text-red-650 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 hover:bg-red-50 dark:hover:bg-red-950/20 flex items-center gap-2 cursor-pointer border-0 bg-transparent"
               >
                 <LogOut className="w-4 h-4" />
                 Sign Out

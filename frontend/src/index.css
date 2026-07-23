@@ -1,26 +1,271 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+:root {
+  /* Light mode variable channels */
+  --slate-50: 248 250 252;       /* bg-slate-50 (primary bg) */
+  --slate-100: 241 245 249;      /* bg-slate-100 (tertiary bg) */
+  --slate-200: 226 232 240;      /* border-slate-200 / standard divider */
+  --slate-300: 203 213 225;
+  --slate-400: 148 163 184;
+  --slate-450: 124 140 162;
+  --slate-455: 124 140 162;
+  --slate-500: 100 116 139;
+  --slate-600: 71 85 105;
+  --slate-650: 241 245 249;
+  --slate-700: 241 245 249;
+  --slate-750: 203 213 225;
+  --slate-800: 241 245 249;      /* tertiary backgrounds map to F1F5F9 */
+  --slate-850: 241 245 249;      /* tertiary backgrounds map to F1F5F9 */
+  --slate-900: 255 255 255;      /* secondary backgrounds / cards map to FFFFFF */
+  --slate-950: 248 250 252;      /* body / primary backgrounds map to F8FAFC */
+}
 
-@layer base {
-  body {
-    @apply bg-slate-950 text-slate-100 font-sans antialiased min-h-screen selection:bg-purple-600 selection:text-white;
-  }
+.dark {
+  /* Dark mode variable channels */
+  --slate-50: 248 250 252;
+  --slate-100: 241 245 249;
+  --slate-200: 226 232 240;
+  --slate-300: 203 213 225;
+  --slate-400: 148 163 184;
+  --slate-450: 124 140 162;
+  --slate-455: 124 140 162;
+  --slate-500: 100 116 139;
+  --slate-600: 71 85 105;
+  --slate-650: 51 65 85;
+  --slate-700: 51 65 85;
+  --slate-750: 30 41 59;
+  --slate-800: 30 41 59;
+  --slate-850: 23 32 51;
+  --slate-900: 15 23 42;
+  --slate-950: 2 6 23;
+}
+
+body {
+  background-color: rgb(var(--slate-950));
+  color: rgb(var(--slate-100));
+  font-family: Inter, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
+}
+
+body::selection {
+  background-color: #6366f1; /* indigo accent */
+  color: #ffffff;
 }
 
 /* Glassmorphism custom components */
 .glass-panel {
-  background: rgba(30, 41, 59, 0.4);
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: rgba(255, 255, 255, 0.8) !important;
+  backdrop-filter: blur(24px) saturate(180%) !important;
+  border: 1px solid rgba(15, 23, 42, 0.08) !important;
+  box-shadow: 0 4px 24px rgba(15, 23, 42, 0.04) !important;
+}
+
+.dark .glass-panel {
+  background: rgba(30, 41, 59, 0.4) !important;
+  backdrop-filter: blur(12px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.06) !important;
+  box-shadow: none !important;
 }
 
 .glass-card {
-  background: rgba(15, 23, 42, 0.5);
-  backdrop-filter: blur(8px);
-  border: 1px solid rgba(255, 255, 255, 0.04);
+  background: #ffffff !important;
+  border: 1px solid rgba(15, 23, 42, 0.08) !important;
+  box-shadow: 0 4px 24px rgba(15, 23, 42, 0.08) !important;
+}
+
+.glass-card:hover {
+  background: #f8fafc !important;
+}
+
+.dark .glass-card {
+  background: rgba(15, 23, 42, 0.5) !important;
+  backdrop-filter: blur(8px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.04) !important;
+  box-shadow: none !important;
+}
+
+.dark .glass-card:hover {
+  background: rgba(15, 23, 42, 0.6) !important;
+}
+
+/* Light mode high-contrast overrides for text-white */
+html:not(.dark) .text-white {
+  color: #0f172a !important; /* primary text */
+}
+
+/* Restore white text for elements that should always be white (like solid purple/indigo primary buttons/badges) */
+html:not(.dark) a.bg-purple-600,
+html:not(.dark) a.bg-purple-600 *,
+html:not(.dark) .bg-purple-600,
+html:not(.dark) .bg-purple-600 *,
+html:not(.dark) .bg-purple-500,
+html:not(.dark) .bg-purple-500 *,
+html:not(.dark) .bg-indigo-650,
+html:not(.dark) .bg-indigo-650 *,
+html:not(.dark) .bg-indigo-600,
+html:not(.dark) .bg-indigo-600 *,
+html:not(.dark) .bg-indigo-500,
+html:not(.dark) .bg-indigo-500 *,
+html:not(.dark) .bg-emerald-600,
+html:not(.dark) .bg-emerald-600 *,
+html:not(.dark) .bg-emerald-500,
+html:not(.dark) .bg-emerald-500 *,
+html:not(.dark) .bg-blue-600,
+html:not(.dark) .bg-blue-600 *,
+html:not(.dark) .bg-blue-500,
+html:not(.dark) .bg-blue-500 *,
+html:not(.dark) .bg-red-600,
+html:not(.dark) .bg-red-600 *,
+html:not(.dark) .bg-red-500,
+html:not(.dark) .bg-red-500 *,
+html:not(.dark) .bg-gradient-to-tr,
+html:not(.dark) .bg-gradient-to-tr *,
+html:not(.dark) .bg-gradient-to-r,
+html:not(.dark) .bg-gradient-to-r * {
+  color: #ffffff !important;
+}
+
+/* Light mode typography overrides */
+html:not(.dark) .text-slate-100 {
+  color: #0f172a !important; /* primary text */
+}
+html:not(.dark) .text-slate-200 {
+  color: #0f172a !important; /* primary text */
+}
+html:not(.dark) .text-slate-300 {
+  color: #475569 !important; /* secondary text */
+}
+html:not(.dark) .text-slate-400 {
+  color: #475569 !important; /* secondary text */
+}
+html:not(.dark) .text-slate-450,
+html:not(.dark) .text-slate-455 {
+  color: #64748b !important; /* muted text */
+}
+html:not(.dark) .text-slate-500 {
+  color: #64748b !important; /* muted text */
+}
+html:not(.dark) .text-slate-600 {
+  color: #475569 !important; /* secondary text */
+}
+html:not(.dark) .text-slate-650 {
+  color: #475569 !important; /* secondary text */
+}
+html:not(.dark) .text-slate-700 {
+  color: #475569 !important; /* secondary text */
+}
+html:not(.dark) .text-slate-750 {
+  color: #475569 !important; /* secondary text */
+}
+html:not(.dark) .text-slate-800 {
+  color: #0f172a !important; /* primary text */
+}
+html:not(.dark) .text-slate-850 {
+  color: #0f172a !important; /* primary text */
+}
+html:not(.dark) .text-slate-900 {
+  color: #0f172a !important; /* primary text */
+}
+html:not(.dark) .text-slate-950 {
+  color: #0f172a !important; /* primary text */
+}
+
+/* Light mode primary accents remapped to Indigo (#6366F1) */
+html:not(.dark) .text-purple-400,
+html:not(.dark) .text-purple-500,
+html:not(.dark) .text-purple-600,
+html:not(.dark) .text-indigo-400 {
+  color: #6366f1 !important;
+}
+
+html:not(.dark) .bg-purple-600,
+html:not(.dark) .bg-purple-500,
+html:not(.dark) .bg-indigo-600 {
+  background-color: #6366f1 !important;
+}
+
+html:not(.dark) .hover\:bg-purple-500:hover,
+html:not(.dark) .hover\:bg-purple-700:hover,
+html:not(.dark) .hover\:bg-indigo-500:hover {
+  background-color: #4f46e5 !important; /* Indigo hover */
+}
+
+html:not(.dark) .bg-purple-600\/10,
+html:not(.dark) .bg-indigo-600\/10 {
+  background-color: rgba(99, 102, 241, 0.1) !important;
+}
+
+/* Accent status mappings */
+html:not(.dark) .text-emerald-400 {
+  color: #10b981 !important; /* success */
+}
+html:not(.dark) .text-amber-400 {
+  color: #f59e0b !important; /* warning */
+}
+html:not(.dark) .text-red-400 {
+  color: #ef4444 !important; /* error */
+}
+
+/* Table Row Divider Overrides for Light Mode */
+html:not(.dark) .divide-slate-900\/60 > :not([hidden]) ~ :not([hidden]) {
+  border-color: rgba(15, 23, 42, 0.08) !important;
+}
+
+/* Light mode overlays adjustments */
+html:not(.dark) .bg-purple-900\/10 {
+  background-color: rgba(99, 102, 241, 0.05) !important;
+}
+html:not(.dark) .bg-indigo-900\/10 {
+  background-color: rgba(99, 102, 241, 0.05) !important;
+}
+html:not(.dark) .bg-slate-950\/80,
+html:not(.dark) .bg-slate-950\/85 {
+  background-color: rgba(15, 23, 42, 0.3) !important;
+}
+
+/* Global Table Formatting Refinements */
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+thead th {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  font-size: 0.75rem !important; /* text-xs */
+  font-weight: 700 !important; /* font-bold */
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 1rem 1.5rem !important; /* py-4 px-6 */
+}
+
+html:not(.dark) tbody tr:nth-child(even) {
+  background-color: rgba(241, 245, 249, 0.4);
+}
+
+.dark tbody tr:nth-child(even) {
+  background-color: rgba(15, 23, 42, 0.2);
+}
+
+html:not(.dark) tbody tr:hover {
+  background-color: rgba(241, 245, 249, 0.8) !important;
+}
+
+.dark tbody tr:hover {
+  background-color: rgba(241, 245, 249, 0.05) !important;
+}
+
+/* Smooth transition rates */
+body, header, aside, main, div, section, p, span, h1, h2, h3, h4, h5, h6, button, input, textarea, select, a, tr, td, th {
+  transition-property: background-color, border-color, color, fill, stroke, box-shadow, transform;
+  transition-duration: 300ms;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* Custom Scrollbar */
@@ -35,6 +280,15 @@
   background: rgba(255, 255, 255, 0.1);
   border-radius: 9999px;
 }
+.dark ::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+}
+html:not(.dark) ::-webkit-scrollbar-thumb {
+  background: rgba(15, 23, 42, 0.1);
+}
 ::-webkit-scrollbar-thumb:hover {
   background: rgba(255, 255, 255, 0.2);
+}
+html:not(.dark) ::-webkit-scrollbar-thumb:hover {
+  background: rgba(15, 23, 42, 0.18);
 }
